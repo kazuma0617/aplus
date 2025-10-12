@@ -1,6 +1,6 @@
 # 設計
 ## ワイヤーフレーム
-<img src="images/" width="500">
+<img src="images/wireframe.png">
 
 ## ER図
 <img src="images/">
