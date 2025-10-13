@@ -3,7 +3,7 @@
 <img src="images/wireframe.png">
 
 ## ER図
-<img src="images/">
+<img src="images/aplus.drawio.png">
 
 ## テーブル定義
 <img src="images/" width="500">
