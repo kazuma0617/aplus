@@ -1,0 +1,26 @@
+body{
+    background-color: #EEDEC8;
+}
+
+.articles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.article-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 200px;
+}
+
+.tag {
+    display: inline-block;
+    background-color: #C8DCEE;
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin: 2px;
+    font-size: 0.8em;
+}
