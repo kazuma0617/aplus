@@ -2,6 +2,7 @@
 
 @section('content')
     <h2>記事一覧</h2>
+    <a href="/create">新規投稿</a>
     <div class="articles">
         @foreach($articles as $article)
             <div class="article-card">

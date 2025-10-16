@@ -1,11 +1,32 @@
 body{
     background-color: #EEDEC8;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+header {
+    margin: 30px;
+}
+
+main {
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+}
+
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 600;
 }
 
 .articles {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    flex-wrap: wrap;        /* 横に並べて折り返し */
+    justify-content: center; /* 横方向中央寄せ */
+    gap: 20px;              /* カード間の間隔 */
+    width: 90%;
+    max-width: 1000px;
 }
 
 .article-card {
