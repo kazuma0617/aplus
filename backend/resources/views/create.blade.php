@@ -47,8 +47,18 @@
             </div>
 
 
-            <button type="submit" class="btn btn-primary">投稿</button>
+            <button type="submit" class="btn" style="background-color: #7A5542; color: #fff;">
+                投稿
+            </button>
         </form>
+
+        <div class="mt-3">
+            <a href="{{ route('index') }}" 
+            class="btn" 
+            style="background-color: #B3B3B3; color: #fff;">
+                戻る
+            </a>
+        </div>
 
         <script>
             function previewImage(event) {
