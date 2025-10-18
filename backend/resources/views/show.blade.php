@@ -39,6 +39,12 @@
         @endif
     </div>
 
-    <a href="{{ route('index') }}" class="btn btn-outline-primary mt-3">← 記事一覧に戻る</a>
+    <div class="mt-3">
+        <a href="{{ route('index') }}" 
+        class="btn" 
+        style="background-color: #B3B3B3; color: #fff;">
+            戻る
+        </a>
+    </div>
 </div>
 @endsection
