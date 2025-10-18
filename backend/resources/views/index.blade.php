@@ -4,15 +4,18 @@
     <h2>記事一覧</h2>
     <a href="/create">新規投稿</a>
     <div class="articles">
-        @foreach($articles as $article)
-            <div class="article-card">
-                <h3>{{ $article->title }}</h3>
-                <p>
-                    @foreach($article->tags as $tag)
-                        <span class="tag">{{ $tag->name }}</span>
-                    @endforeach
-                </p>
-            </div>
+        @foreach ($articles as $article)
+        <div class="card mb-3 p-3">
+            <h5>
+                <a href="{{ url('/articles/' . $article->id) }}">
+                    {{ $article->title }}
+                </a>
+            </h5>
+            @if ($article->image_path)
+                <img src="{{ asset('storage/' . $article->image_path) }}" 
+                    alt="記事画像" style="width:150px; height:100px; object-fit:cover;">
+            @endif
+        </div>
         @endforeach
     </div>
 @endsection
