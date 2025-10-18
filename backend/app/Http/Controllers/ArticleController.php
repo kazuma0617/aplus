@@ -97,5 +97,21 @@ class ArticleController extends Controller
         return redirect()->route('index')->with('success', '記事を更新しました！');
     }
 
+    public function destroy($id)
+    {
+        $article = \App\Models\Article::findOrFail($id);
+
+        // 画像ファイルも削除（任意）
+        if ($article->image_path && \Storage::disk('public')->exists($article->image_path)) {
+            \Storage::disk('public')->delete($article->image_path);
+        }
+
+        // タグとの紐付けも自動で削除（onDelete('cascade') が設定されている場合）
+        $article->delete();
+
+        return redirect()->route('index')->with('success', '記事を削除しました！');
+    }
+
+
 
 }
