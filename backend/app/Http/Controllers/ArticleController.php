@@ -48,9 +48,8 @@ class ArticleController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        // タグを紐付け
         if (!empty($validated['tags'])) {
-            $article->tags()->attach($validated['tags']);
+            $article->tags()->attach($validated['tags']); // 複数タグを紐付け
         }
 
         return redirect()->route('index')->with('success', '記事を投稿しました！');
@@ -87,11 +86,10 @@ class ArticleController extends Controller
         $article->github_url = $validated['github_url'] ?? null;
         $article->save();
 
-        // タグの更新
         if (!empty($validated['tags'])) {
-            $article->tags()->sync($validated['tags']); // 既存のタグを置き換え
+            $article->tags()->sync($validated['tags']); // 更新時は既存タグを置き換え
         } else {
-            $article->tags()->detach();
+            $article->tags()->detach(); // 選択なしなら全て削除
         }
 
         return redirect()->route('index')->with('success', '記事を更新しました！');

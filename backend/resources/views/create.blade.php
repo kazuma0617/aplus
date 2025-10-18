@@ -29,13 +29,23 @@
             </div>
 
             <div class="mb-3">
-                <label for="tags" class="form-label">タグ</label>
-                <select class="form-select" name="tags[]" id="tags" multiple>
+                <label class="form-label">タグ</label>
+                <div class="d-flex flex-wrap">
                     @foreach ($tags as $tag)
-                        <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                        <div class="form-check me-3">
+                            <input class="form-check-input" type="checkbox" 
+                                name="tags[]" 
+                                value="{{ $tag->id }}"
+                                id="tag{{ $tag->id }}"
+                                @if(isset($article) && $article->tags->contains($tag->id)) checked @endif>
+                            <label class="form-check-label" for="tag{{ $tag->id }}">
+                                {{ $tag->name }}
+                            </label>
+                        </div>
                     @endforeach
-                </select>
+                </div>
             </div>
+
 
             <button type="submit" class="btn btn-primary">投稿</button>
         </form>
