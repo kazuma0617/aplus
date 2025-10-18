@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
+            $table->string('image_path');
             $table->string('title');
             $table->string('article_url');
             $table->string('github_url');
