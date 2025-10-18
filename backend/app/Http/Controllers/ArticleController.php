@@ -13,6 +13,12 @@ class ArticleController extends Controller
         return view('index', compact('articles'));
     }
 
+    public function show($id)
+    {
+        $article = \App\Models\Article::with('tags')->findOrFail($id);
+        return view('show', compact('article'));
+    }
+
     public function create()
     {
         $tags = \App\Models\Tag::all();
