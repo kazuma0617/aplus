@@ -56,4 +56,46 @@ class ArticleController extends Controller
         return redirect()->route('index')->with('success', '記事を投稿しました！');
     }
 
+    public function edit($id)
+    {
+        $article = \App\Models\Article::with('tags')->findOrFail($id);
+        $tags = \App\Models\Tag::all();
+        return view('edit', compact('article', 'tags'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $article = \App\Models\Article::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'article_url' => 'nullable|url',
+            'github_url' => 'nullable|url',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
+            'image' => 'nullable|image|max:2048',
+        ]);
+
+        // 画像の更新
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $article->image_path = $imagePath;
+        }
+
+        $article->title = $validated['title'];
+        $article->article_url = $validated['article_url'] ?? null;
+        $article->github_url = $validated['github_url'] ?? null;
+        $article->save();
+
+        // タグの更新
+        if (!empty($validated['tags'])) {
+            $article->tags()->sync($validated['tags']); // 既存のタグを置き換え
+        } else {
+            $article->tags()->detach();
+        }
+
+        return redirect()->route('index')->with('success', '記事を更新しました！');
+    }
+
+
 }

@@ -15,6 +15,7 @@
                 <img src="{{ asset('storage/' . $article->image_path) }}" 
                     alt="記事画像" style="width:150px; height:100px; object-fit:cover;">
             @endif
+            <a href="{{ route('edit', $article->id) }}" class="btn btn-sm btn-warning">編集</a>
         </div>
         @endforeach
     </div>

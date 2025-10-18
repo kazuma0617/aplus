@@ -17,11 +17,13 @@ Route::get('/register', function () {
 
 Route::get('/create', [ArticleController::class, 'create'])->name('create');
 Route::post('/store', [ArticleController::class, 'store'])->name('store');
+Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('edit');
+Route::put('/articles/{id}', [ArticleController::class, 'update'])->name('update');
+
 
 
 Route::get('/articles', [ArticleController::class, 'index'])->name('index');
 Route::get('/articles/create', [ArticleController::class, 'create']);
 Route::post('/articles', [ArticleController::class, 'store']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/articles/{id}/edit', [ArticleController::class, 'edit']);
 Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
