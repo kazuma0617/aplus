@@ -15,8 +15,11 @@ Route::get('/register', function () {
     return view('register');
 });
 
+Route::get('/create', [ArticleController::class, 'create'])->name('create');
+Route::post('/store', [ArticleController::class, 'store'])->name('store');
 
-Route::get('/articles', [ArticleController::class, 'index']);
+
+Route::get('/articles', [ArticleController::class, 'index'])->name('index');
 Route::get('/articles/create', [ArticleController::class, 'create']);
 Route::post('/articles', [ArticleController::class, 'store']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
