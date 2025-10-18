@@ -15,7 +15,17 @@
                 <img src="{{ asset('storage/' . $article->image_path) }}" 
                     alt="記事画像" style="width:150px; height:100px; object-fit:cover;">
             @endif
+            <div class="mt-2">
+                @foreach ($article->tags as $tag)
+                    <span class="badge bg-secondary">{{ $tag->name }}</span>
+                @endforeach
+            </div>
             <a href="{{ route('edit', $article->id) }}" class="btn btn-sm btn-warning">編集</a>
+            <form action="{{ route('destroy', $article->id) }}" method="POST" style="display:inline;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('本当に削除しますか？')">削除</button>
+            </form>
         </div>
         @endforeach
     </div>
