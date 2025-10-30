@@ -1,0 +1,21 @@
+サーバー起動
+php artisan serve
+
+viteを起動
+npm run dev
+
+gitコマンド
+1. 作業ブランチの作成
+git checkout -b <ブランチ名>
+2. リモートに変更をプッシュ
+git push origin <ブランチ名>
+3. mainブランチに移動
+git checkout main   
+4. リモートの変更をローカルにマージ
+git pull origin main      
+
+
+
+test
+https://github.com/kazuma0617/aprentice-team-dev1-10th
+https://qiita.com/kazuma0000/items/56c9affd1a8c7369fe41
