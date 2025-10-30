@@ -1,12 +1,13 @@
 # 設計
 ## ワイヤーフレーム
-<img src="images/wireframe.png">
+[Figmaデザインはこちら](https://www.figma.com/design/KT9rpZ0gOiJuy6inDgt6gL/aplus?node-id=0-1&p=f&t=s7D7GFMVYrJ4DWKa-0)
 
 ## ER図
 <img src="images/aplus.drawio.png">
 
 ## テーブル定義
-<img src="images/teble_definition.png" width="500">
+[テーブル定義はこちら](https://docs.google.com/spreadsheets/d/19_dI8WVdXTdc3-b6offRymm4amtDUa-w6IM5FDJETaE/edit?gid=0#gid=0)
+
 
 ## システム構成図
 <img src="images/system-architecture-diagram.png" width="500">
