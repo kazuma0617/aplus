@@ -54,7 +54,7 @@ class QiitaController extends Controller
 
         // DBに保存（すでにあるものは更新、なければ新規作成）
         foreach ($articles as $item) {
-            \App\Models\Article::updateOrCreate(
+            $article = \App\Models\Article::updateOrCreate(
                 [
                     'url' => $item['url'],
                     'user_id' => $user->id,
@@ -64,7 +64,17 @@ class QiitaController extends Controller
                     'created_at' => $item['created_at'],
                 ]
             );
+            $tagIds = [];
+            if (isset($item['tags'])) {
+                foreach ($item['tags'] as $tagData) {
+                    $tag = \App\Models\Tag::firstOrCreate(['name' => $tagData['name']]);
+                    $tagIds[] = $tag->id;
+                }
+                $article->tags()->sync($tagIds);
+            }
         }
+
+        
 
         return redirect()->route('mypage');
     }

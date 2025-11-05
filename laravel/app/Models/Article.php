@@ -17,4 +17,9 @@ class Article extends Model
         'image_path',
         'created_at',
     ];
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'article_tags');
+    }
 }

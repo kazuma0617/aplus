@@ -23,6 +23,9 @@
                         @if($article['github_url'])
                             <a href="{{ $article['github_url'] }}" target="_blank">GitHubを見る</a>
                         @endif
+                        @foreach ($article->tags as $tag)
+                          <span class="tag">{{ $tag->name }}</span>
+                        @endforeach
                     </p>
                     <a href="{{ route('articles.edit', $article->id) }}" class="edit-btn"><i class="bi bi-pen"></i></a>
                     <a href="" class="delete-btn"><i class="bi bi-trash"></i></a>
