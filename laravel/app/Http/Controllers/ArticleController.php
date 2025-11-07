@@ -7,6 +7,12 @@ use App\Models\Article;
 
 class ArticleController extends Controller
 {
+    public function show($id)
+    {
+        $article = Article::with('tags')->findOrFail($id);
+        return view('show', compact('article'));
+    }
+
     public function edit($id)
     {
         $article = Article::findOrFail($id);
