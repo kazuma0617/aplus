@@ -23,6 +23,7 @@ Route::get('/qiita/sync', [QiitaController::class, 'syncQiitaArticles'])->name('
 // Article
 Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
 Route::post('/articles/{id}', [ArticleController::class, 'update'])->name('articles.update');
+Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
 
 
 
