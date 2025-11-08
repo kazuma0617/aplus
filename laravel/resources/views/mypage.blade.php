@@ -2,6 +2,16 @@
 
 @section('content')
 
+    @if(Auth::check())
+        <div style="text-align: right; margin-bottom: 10px;">
+            <span>ようこそ、{{ Auth::user()->name }} さん</span>
+            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit" class="btn btn-secondary btn-sm">ログアウト</button>
+            </form>
+        </div>
+    @endif
+
     <a href="{{ route('qiita.auth') }}" class="btn-qiita">Qiitaアカウントを連携する</a> 
     <a href="{{ route('qiita.sync') }}" class="btn-qiita">Qiita記事を同期する</a>
 

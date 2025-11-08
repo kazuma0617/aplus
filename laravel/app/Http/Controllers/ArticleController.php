@@ -42,4 +42,10 @@ class ArticleController extends Controller
 
         return redirect()->route('mypage');
     }
+
+    public function mypage()
+    {
+        $articles = Article::all();
+        return view('mypage', compact('articles'));
+    }
 }
