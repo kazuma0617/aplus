@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Qiita;
 
 class QiitaController extends Controller
 {
@@ -32,18 +33,29 @@ class QiitaController extends Controller
         ]);
 
         $data = $response->json();
+        $token = $data['token'] ?? null;
 
-        $user = \App\Models\User::find(1);
-        $user->qiita_token = $data['token'] ?? null;
-        $user->save();
+        $user = User::find(1); // ← 固定ID
+
+        Qiita::updateOrCreate(
+            ['user_id' => $user->id],
+            ['qiita_token' => $token]
+        );
 
         return redirect()->route('mypage');
     }
 
+    // Qiita記事の同期
     public function syncQiitaArticles()
     {
-        $user = \App\Models\User::find(1);
-        $token = $user->qiita_token;
+        $user = User::find(1); // ← 固定ID
+        $qiita = Qiita::where('user_id', $user->id)->first();
+
+        if (!$qiita || !$qiita->qiita_token) {
+            return redirect()->route('mypage')->with('error', 'Qiita連携がまだ完了していません。');
+        }
+
+        $token = $qiita->qiita_token;
 
         // QiitaAPIから記事一覧を取得
         $response = Http::withHeaders([
@@ -64,6 +76,8 @@ class QiitaController extends Controller
                     'created_at' => $item['created_at'],
                 ]
             );
+
+            // タグの同期
             $tagIds = [];
             if (isset($item['tags'])) {
                 foreach ($item['tags'] as $tagData) {
@@ -74,9 +88,6 @@ class QiitaController extends Controller
             }
         }
 
-        
-
-        return redirect()->route('mypage');
+        return redirect()->route('mypage')->with('success', 'Qiita記事を同期しました。');
     }
-
 }

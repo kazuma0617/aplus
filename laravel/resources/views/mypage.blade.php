@@ -10,7 +10,6 @@
         <h2>あなたのQiita記事一覧</h2>
         <ul>
             @foreach ($articles as $article)
-            <a href="{{ route('articles.show', $article->id) }}">
                 <div class="article-card">
                     @if($article['image_path'])
                         <img src="{{ asset('storage/' . $article['image_path']) }}" alt="記事画像" class="article-image">
@@ -21,11 +20,20 @@
                         <span>{{ $tag->name }}</span>
                         @endforeach
                         <a href="{{ route('articles.edit', $article->id) }}" class="edit-btn"><i class="bi bi-pen"></i></a>
-                        <a href="" class="delete-btn"><i class="bi bi-trash"></i></a>
+                        <!-- フォームでDeleteメソッドとして実行 -->
+                        <form action="{{ route('articles.destroy', $article->id) }}" 
+                            method="POST" 
+                            onsubmit="return confirm('本当に削除しますか？');" 
+                            style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete-btn">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
                     </div>
                     
                 </div>
-            </a>
             
             @endforeach
 

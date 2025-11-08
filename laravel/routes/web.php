@@ -24,6 +24,7 @@ Route::get('/qiita/sync', [QiitaController::class, 'syncQiitaArticles'])->name('
 Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
 Route::post('/articles/{id}', [ArticleController::class, 'update'])->name('articles.update');
 Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
+Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 
 
 
