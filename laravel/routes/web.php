@@ -6,10 +6,6 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 use App\Models\Article;
 
-Route::get('/', function () {
-    return "home";
-});
-
 // 認証
 Route::get('/register', [UserController::class, 'showRegisterForm'])->name('register.show');
 Route::post('/register', [UserController::class, 'register'])->name('register.store');
@@ -25,7 +21,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/qiita/callback', [QiitaController::class, 'handleCallback'])->name('qiita.callback');
     Route::get('/qiita/sync', [QiitaController::class, 'syncQiitaArticles'])->name('qiita.sync');
 
+    // 手動投稿
+    Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+    Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
+
     // Article
+    Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
     Route::post('/articles/{id}', [ArticleController::class, 'update'])->name('articles.update');
     Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
