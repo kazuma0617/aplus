@@ -34,4 +34,12 @@ class ArticleController extends Controller
 
         return redirect()->route('mypage');
     }
+
+    public function destroy($id)
+    {
+        $article = \App\Models\Article::findOrFail($id);
+        $article->delete();
+
+        return redirect()->route('mypage');
+    }
 }
