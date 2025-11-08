@@ -24,6 +24,6 @@
     </div>
 
     {{-- 戻るボタン --}}
-    <a href="{{ route('mypage') }}" class="btn-back">← マイページに戻る</a>
+    <a href="{{ route('articles.index') }}" class="btn-back">← 戻る</a>
 </div>
 @endsection

@@ -14,6 +14,7 @@
 
     <a href="{{ route('qiita.auth') }}" class="btn-qiita">Qiitaアカウントを連携する</a> 
     <a href="{{ route('qiita.sync') }}" class="btn-qiita">Qiita記事を同期する</a>
+    <a href="{{ route('articles.index') }}" class="btn-back">← 戻る</a>
 
 
     @isset($articles)
