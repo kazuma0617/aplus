@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth; 
 use App\Models\User;
 use App\Models\Qiita;
 
@@ -35,7 +36,7 @@ class QiitaController extends Controller
         $data = $response->json();
         $token = $data['token'] ?? null;
 
-        $user = User::find(1); // ← 固定ID
+        $user = Auth::user(); // ← 固定ID
 
         Qiita::updateOrCreate(
             ['user_id' => $user->id],
@@ -48,7 +49,7 @@ class QiitaController extends Controller
     // Qiita記事の同期
     public function syncQiitaArticles()
     {
-        $user = User::find(1); // ← 固定ID
+        $user = Auth::user();
         $qiita = Qiita::where('user_id', $user->id)->first();
 
         if (!$qiita || !$qiita->qiita_token) {

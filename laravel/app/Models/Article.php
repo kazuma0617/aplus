@@ -18,6 +18,12 @@ class Article extends Model
         'created_at',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'article_tags');
