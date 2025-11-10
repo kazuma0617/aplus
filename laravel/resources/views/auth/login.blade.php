@@ -1,40 +1,34 @@
-@extends('layout')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <title>Aplus</title>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">Aplus</a>
+            <a href="{{ route('register.show') }}" class="header-register-link">アカウント登録</a>
+        </div>     
+    </header>
 
-@section('content')
-<div class="container" style="max-width: 400px; margin-top: 50px;">
-
-    <h2>ログイン</h2>
-
-    {{-- エラーメッセージ --}}
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul style="margin: 0;">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('login.store') }}" method="POST">
-        @csrf
-        <div class="mb-3">
-            <label for="name" class="form-label">ユーザー名</label>
-            <input type="text" name="name" id="name" class="form-control" required autofocus>
-        </div>
-
-        <div class="mb-3">
-            <label for="password" class="form-label">パスワード</label>
-            <input type="password" name="password" id="password" class="form-control" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-100 mt-2">ログイン</button>
-    </form>
-
-    <p class="mt-3">
-        アカウントをお持ちでない方は
-        <a href="{{ route('register.show') }}">新規登録</a>
-    </p>
-
-</div>
-@endsection
+    <div class="login">
+        <p class="login-title">ログイン</p>
+        <form action="{{ route('login.store') }}" method="POST">
+            @csrf
+            <div class="input-info">
+                <fieldset class="userid">
+                    <input type="text" placeholder="username" name="name" class="userid-input">
+                </fieldset>
+                <fieldset class="password">
+                    <input type="text" placeholder="password" name="password" id="password" class="password-input">
+                </fieldset>
+            </div>
+            <button type="submit" class="login-button">ログイン</button>
+        </form>
+    </div>
+</body>
+</html>
