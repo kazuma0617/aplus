@@ -1,37 +1,34 @@
-@extends('layout')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+    <title>Aplus</title>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="#" class="logo">Aplus</a>
+            <a href="{{ route('login') }}" class="header-register-link">ログイン</a>
+        </div>     
+    </header>
 
-@section('content')
-<div class="container">
-    <h2>新規登録</h2>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('register.store') }}" method="POST">
-        @csrf
-        <div>
-            <label for="name">ユーザー名：</label>
-            <input type="text" name="name" value="{{ old('name') }}" required>
-        </div>
-
-        <div>
-            <label for="password">パスワード：</label>
-            <input type="password" name="password" required>
-        </div>
-
-        <div>
-            <label for="password_confirmation">パスワード確認：</label>
-            <input type="password" name="password_confirmation" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-3">登録</button>
-    </form>
-</div>
-@endsection
+    <div class="login">
+        <p class="login-title">新規登録</p>
+        <form action="{{ route('register.store') }}" method="POST">
+            @csrf
+            <div class="input-info">
+                <fieldset class="userid">
+                    <input type="text" placeholder="username" name="name" class="userid-input">
+                </fieldset>
+                <fieldset class="password">
+                    <input type="text" placeholder="password" name="password" id="password" class="password-input">
+                </fieldset>
+            </div>
+            <button type="submit" class="login-button">新規登録</button>
+        </form>
+    </div>
+</body>
+</html>
