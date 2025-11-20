@@ -163,7 +163,7 @@ nav a {
     display: inline-block;
     text-decoration: none;
     font-weight: bold;
-    font-size: 7px;
+    font-size: 6px;
     text-align: center;
     background-color:  #d9d9d9;
     width: 50px;
@@ -189,6 +189,56 @@ nav a {
     height: fit-content;
     line-height: 1;
 }
+
+/* ページネーション全体の調整 */
+.pagination {
+    gap: 8px;
+    --bs-pagination-padding-x: 10px;
+    --bs-pagination-padding-y: 5px;
+    --bs-pagination-font-size: 0.9rem;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.pagination-area {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.pagination-area nav {
+    width: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
+}
+
+
+/* 通常のページリンク */
+.page-link {
+    color: #7A5542;
+    border-radius: 8px;
+}
+
+/* hover */
+.page-link:hover {
+    color: #5e402f;
+    background-color: #f8f6f4;
+}
+
+/* アクティブ（今のページ） */
+.page-item.active .page-link {
+    background-color: #7A5542;
+    border-color: #7A5542;
+    color: white;
+}
+
+.small.text-muted {
+    display: none !important;
+}
+
+
 
 /* 編集・削除ボタンをまとめて並べる用 */
 .article-actions {
