@@ -133,6 +133,10 @@ nav a {
     color: #333;
 }
 
+.article-right a {
+    text-decoration: none;
+}
+
 /* .tag {
     display: inline-block;
     background-color: #EEDEC8;
@@ -158,6 +162,15 @@ nav a {
     border-radius: 12px;
     padding-top: 3px;
     margin-right: 8px;
+}
+
+.github-btn {
+    color: #000;
+    font-size: 1.7rem;
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
+    line-height: 1;
 }
 
 /* 編集・削除ボタンをまとめて並べる用 */
