@@ -12,7 +12,12 @@
                 alt="記事画像" class="article-image">
         </div>
         <div class="article-right">
-            <a href="{{ route('articles.show', $article->id) }}"><h3>{{ $article->title }}</h3></a>
+            <a href="{{ $article->url }}"><h3>{{ $article->title }}</h3></a>
+            @if ($article->github_url)
+            <a href="{{ $article->github_url }}" class="github-btn" target="_blank">
+                <i class="bi bi-github"></i>
+            </a>
+            @endif
             <p>
                 @foreach($article->tags as $tag)
                     <span class="tag">#{{ $tag->name }}</span>
