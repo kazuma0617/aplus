@@ -6,7 +6,7 @@ body {
 }
 
 main {
-    max-width: 1000px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -113,7 +113,6 @@ nav a {
     width: 50%;
     height: 100%;          /* ← カード高さと揃える */
     overflow: hidden;
-    border-radius: 8px;
     flex-shrink: 0;        /* 画像が潰れない */
 }
 
