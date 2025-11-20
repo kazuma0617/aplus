@@ -89,51 +89,61 @@ nav a {
 }
 
 /* 記事情報 */
+.main-contents {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
 .article-card {
-    width: 55%;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 10px;
-    padding: 12px 16px;
-    margin: 16px auto;
-    display: flex;   
-    align-items: flex-start; 
-    gap: 20px;   
-    align-items: stretch; /* ← 画像と右側を同じ高さに */
+    overflow: hidden;
+    display: flex;
+    width: 100%;
+    height: 150px;  /* ← これで完全に揃う！ */
+    box-sizing: border-box;
 }
 
 .article-left {
-    width: 45%;
-    aspect-ratio: 16 / 9;      /* ← 比率を固定（横16:縦9） */
-    height: auto;
+    width: 50%;
+    height: 100%;          /* ← カード高さと揃える */
+    overflow: hidden;
     border-radius: 8px;
-    object-fit: cover; 
-    overflow: hidden; /* 画像がはみ出たときに隠す */
+    flex-shrink: 0;        /* 画像が潰れない */
 }
 
 .article-image {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 画像を枠内にトリミング */
-    object-position: center;   /* 中央を基準にトリミング */
-    border-radius: 8px;
+    object-fit: cover;
 }
 
 .article-right {
-    width: 50%;
+    flex: 1;
+    padding: 12px 16px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
 }
 
-
 .article-right h3 {
+    display: block;
     margin-top: 0;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
     color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 95%;
 }
 
 .article-right a {
+    color: #333;
     text-decoration: none;
 }
 
@@ -153,20 +163,27 @@ nav a {
     display: inline-block;
     text-decoration: none;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 7px;
     text-align: center;
     background-color:  #d9d9d9;
-    width: 72px;
-    height: 24px;
+    width: 50px;
+    height: 17px;
     color: #6d6d6d;
     border-radius: 12px;
     padding-top: 3px;
     margin-right: 8px;
 }
 
+.poster-line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
 .github-btn {
     color: #000;
-    font-size: 1.7rem;
+    font-size: 1.2rem;
     display: inline-block;
     width: fit-content;
     height: fit-content;
