@@ -17,7 +17,6 @@
     <a href="{{ route('qiita.sync') }}" class="btn-qiita">Qiita記事を同期する</a>
 
     <div class="main-contents">
-        <h1>自分の投稿</h1>
         @foreach($articles as $article)
         <div class="article-card">
             <div class="article-left">
@@ -27,13 +26,12 @@
                     alt="記事画像" class="article-image">
             </div>
             <div class="article-right">
-                <a href="{{ route('articles.show', $article->id) }}"><h3>{{ $article->title }}</h3></a>
+                <h3>{{ $article->title }}</h3>
                 <p>
                     @foreach($article->tags as $tag)
                         <span class="tag">#{{ $tag->name }}</span>
                     @endforeach
                 </p>
-                <p>投稿者：{{ optional($article->user)->name ?? '不明なユーザー' }}</p>
                 <div class="article-actions">
                     <a href="{{ route('articles.edit', $article->id) }}" class="edit-btn"><i class="bi bi-pen"></i></a>
                         <!-- フォームでDeleteメソッドとして実行 -->
