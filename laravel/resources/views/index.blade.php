@@ -16,7 +16,7 @@
             
             <p>
                 @foreach($article->tags as $tag)
-                    <span class="tag">#{{ $tag->name }}</span>
+                    <span class="tag">{{ $tag->name }}</span>
                 @endforeach
             </p>
             <p class="poster-line">
@@ -30,5 +30,10 @@
         </div>
     </div>
     @endforeach
+
+    <div class="pagination-area">
+        {{ $articles->links('pagination::bootstrap-5') }}
+    </div>
+
 </div>
 @endsection
