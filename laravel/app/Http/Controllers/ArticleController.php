@@ -24,25 +24,45 @@ class ArticleController extends Controller
 
     public function edit($id)
     {
-        $article = Article::findOrFail($id);
-        return view('edit', compact('article'));
+        $article = Article::with('tags')->findOrFail($id);
+        $tags = Tag::orderBy('name')->get(['id','name']);
+
+        return view('edit', compact('article', 'tags'));
     }
+
 
     public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
 
+        // バリデーション（store と合わせる）
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'url' => 'required|url|max:255',
+            'github_url' => 'nullable|url|max:255',
+            'image_path' => 'nullable|image|max:2048',
+            'tags' => 'array',
+        ]);
+
+        // フィールドの更新
+        $article->title = $request->title;
+        $article->url = $request->url;
         $article->github_url = $request->github_url;
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('articles', 'public');
-            $article->image_path = $path;
+        // 画像の再アップロード
+        if ($request->hasFile('image_path')) {
+            $imagePath = $request->file('image_path')->store('articles', 'public');
+            $article->image_path = $imagePath;
         }
 
         $article->save();
 
+        // タグの更新（sync）
+        $article->tags()->sync($request->input('tags', []));
+
         return redirect()->route('mypage');
     }
+
 
     public function destroy($id)
     {
