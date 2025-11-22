@@ -46,49 +46,46 @@ class QiitaController extends Controller
         return redirect()->route('mypage');
     }
 
-    // Qiita記事の同期
     public function syncQiitaArticles()
-    {
-        $user = Auth::user();
-        $qiita = Qiita::where('user_id', $user->id)->first();
+{
+    $user = Auth::user();
+    $qiita = Qiita::where('user_id', $user->id)->first();
 
-        if (!$qiita || !$qiita->qiita_token) {
-            return redirect()->route('mypage')->with('error', 'Qiita連携がまだ完了していません。');
-        }
-
-        $token = $qiita->qiita_token;
-
-        // QiitaAPIから記事一覧を取得
-        $response = Http::withHeaders([
-            'Authorization' => "Bearer {$token}",
-        ])->get('https://qiita.com/api/v2/authenticated_user/items');
-
-        $articles = $response->json();
-
-        // DBに保存（すでにあるものは更新、なければ新規作成）
-        foreach ($articles as $item) {
-            $article = \App\Models\Article::updateOrCreate(
-                [
-                    'url' => $item['url'],
-                    'user_id' => $user->id,
-                ],
-                [
-                    'title' => $item['title'],
-                    'created_at' => $item['created_at'],
-                ]
-            );
-
-            // タグの同期
-            $tagIds = [];
-            if (isset($item['tags'])) {
-                foreach ($item['tags'] as $tagData) {
-                    $tag = \App\Models\Tag::firstOrCreate(['name' => $tagData['name']]);
-                    $tagIds[] = $tag->id;
-                }
-                $article->tags()->sync($tagIds);
-            }
-        }
-
-        return redirect()->route('mypage')->with('success', 'Qiita記事を同期しました。');
+    if (!$qiita || !$qiita->qiita_token) {
+        return redirect()->route('mypage');
     }
+
+    $token = $qiita->qiita_token;
+
+    // QiitaAPIから記事一覧を取得
+    $response = Http::withHeaders([
+        'Authorization' => "Bearer {$token}",
+    ])->get('https://qiita.com/api/v2/authenticated_user/items');
+
+    $articles = $response->json();
+
+    // ★ DB保存はしない
+    // ★ プレビュー画面へ渡す
+    return view('preview', ['qiitaArticles' => $articles]);
+
+}
+
+public function import(Request $request)
+{
+    $user = Auth::user();
+
+    $article = \App\Models\Article::updateOrCreate(
+        [
+            'url' => $request->url,
+            'user_id' => $user->id,
+        ],
+        [
+            'title' => $request->title,
+        ]
+    );
+
+    return redirect()->route('mypage');
+}
+
+
 }

@@ -13,13 +13,22 @@ Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [UserController::class, 'login'])->name('login.store');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+// Qiita OAuth コールバック（←必ず auth 外）
+Route::get('/qiita/callback', [QiitaController::class, 'handleCallback'])->name('qiita.callback');
+
 Route::middleware('auth')->group(function () {
     Route::get('/mypage', [ArticleController::class, 'mypage'])->name('mypage');
 
     // Qiitaから記事情報を取得
     Route::get('/qiita/auth', [QiitaController::class, 'redirectToQiita'])->name('qiita.auth');
-    Route::get('/qiita/callback', [QiitaController::class, 'handleCallback'])->name('qiita.callback');
+    // Route::get('/qiita/callback', [QiitaController::class, 'handleCallback'])->name('qiita.callback');
     Route::get('/qiita/sync', [QiitaController::class, 'syncQiitaArticles'])->name('qiita.sync');
+    // プレビュー画面
+    Route::get('/qiita/preview', [QiitaController::class, 'syncQiitaArticles'])->name('qiita.preview');
+
+    // 保存処理
+    Route::post('/qiita/import', [QiitaController::class, 'import'])->name('qiita.import');
+
 
     // 手動投稿
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
