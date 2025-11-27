@@ -10,7 +10,7 @@
 
 
 ## システム構成図
-<img src="images/aplus-system-architecture.drawio.png" width="500">
+<img src="images/aplus-system-architecture.drawio.png">
 
 
 
