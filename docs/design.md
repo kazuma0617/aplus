@@ -10,7 +10,7 @@
 
 
 ## システム構成図
-<img src="images/system-architecture-diagram.png" width="500">
+<img src="images/aplus-system-architecture.png" width="500">
 
 
 
