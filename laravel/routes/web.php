@@ -17,7 +17,7 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/qiita/callback', [QiitaController::class, 'handleCallback'])->name('qiita.callback');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/mypage', [ArticleController::class, 'mypage'])->name('mypage');
+    Route::get('/mypage', [ArticleController::class, 'showMyPage'])->name('mypage');
 
     // Qiitaから記事情報を取得
     Route::get('/qiita/auth', [QiitaController::class, 'redirectToQiita'])->name('qiita.auth');
