@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Auth; 
-use App\Models\User;
 use App\Models\Qiita;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class QiitaController extends Controller
 {
@@ -47,45 +46,43 @@ class QiitaController extends Controller
     }
 
     public function syncQiitaArticles()
-{
-    $user = Auth::user();
-    $qiita = Qiita::where('user_id', $user->id)->first();
+    {
+        $user = Auth::user();
+        $qiita = Qiita::where('user_id', $user->id)->first();
 
-    if (!$qiita || !$qiita->qiita_token) {
-        return redirect()->route('mypage');
+        if (! $qiita || ! $qiita->qiita_token) {
+            return redirect()->route('mypage');
+        }
+
+        $token = $qiita->qiita_token;
+
+        // QiitaAPIから記事一覧を取得
+        $response = Http::withHeaders([
+            'Authorization' => "Bearer {$token}",
+        ])->get('https://qiita.com/api/v2/authenticated_user/items');
+
+        $articles = $response->json();
+
+        // ★ DB保存はしない
+        // ★ プレビュー画面へ渡す
+        return view('preview', ['qiitaArticles' => $articles]);
+
     }
 
-    $token = $qiita->qiita_token;
+    public function import(Request $request)
+    {
+        $user = Auth::user();
 
-    // QiitaAPIから記事一覧を取得
-    $response = Http::withHeaders([
-        'Authorization' => "Bearer {$token}",
-    ])->get('https://qiita.com/api/v2/authenticated_user/items');
+        $article = \App\Models\Article::updateOrCreate(
+            [
+                'url' => $request->url,
+                'user_id' => $user->id,
+            ],
+            [
+                'title' => $request->title,
+            ]
+        );
 
-    $articles = $response->json();
-
-    // ★ DB保存はしない
-    // ★ プレビュー画面へ渡す
-    return view('preview', ['qiitaArticles' => $articles]);
-
-}
-
-public function import(Request $request)
-{
-    $user = Auth::user();
-
-    $article = \App\Models\Article::updateOrCreate(
-        [
-            'url' => $request->url,
-            'user_id' => $user->id,
-        ],
-        [
-            'title' => $request->title,
-        ]
-    );
-
-    return redirect()->route('mypage');
-}
-
-
+        return redirect()->route('mypage');
+    }
 }

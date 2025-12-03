@@ -2,34 +2,34 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
-
     public function index()
     {
         $articles = Article::orderBy('id', 'desc')->paginate(10);
+
         return view('index', compact('articles'));
     }
 
     public function show($id)
     {
         $article = Article::with('tags')->findOrFail($id);
+
         return view('show', compact('article'));
     }
 
     public function edit($id)
     {
         $article = Article::with('tags')->findOrFail($id);
-        $tags = Tag::orderBy('name')->get(['id','name']);
+        $tags = Tag::orderBy('name')->get(['id', 'name']);
 
         return view('edit', compact('article', 'tags'));
     }
-
 
     public function update(Request $request, $id)
     {
@@ -63,7 +63,6 @@ class ArticleController extends Controller
         return redirect()->route('mypage');
     }
 
-
     public function destroy($id)
     {
         $article = \App\Models\Article::findOrFail($id);
@@ -76,12 +75,14 @@ class ArticleController extends Controller
     {
         $user_id = Auth::id();
         $articles = Article::where('user_id', $user_id)->get();
+
         return view('mypage', compact('articles'));
     }
 
     public function create()
     {
-        $tags = Tag::orderBy('name')->get(['id','name']);
+        $tags = Tag::orderBy('name')->get(['id', 'name']);
+
         return view('create', compact('tags'));
     }
 
@@ -110,6 +111,7 @@ class ArticleController extends Controller
         ]);
 
         $article->tags()->sync($request->input('tags', []));
+
         return redirect()->route('mypage');
     }
 }

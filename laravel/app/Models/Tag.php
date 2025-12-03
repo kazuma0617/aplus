@@ -10,5 +10,6 @@ class Tag extends Model
     {
         return $this->belongsToMany(Article::class, 'article_tags');
     }
+
     protected $fillable = ['name'];
 }

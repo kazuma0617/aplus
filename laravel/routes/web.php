@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\QiitaController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\QiitaController;
 use App\Http\Controllers\UserController;
 use App\Models\Article;
+use Illuminate\Support\Facades\Route;
 
 // 認証
 Route::get('/register', [UserController::class, 'showRegisterForm'])->name('register.show');
@@ -29,7 +29,6 @@ Route::middleware('auth')->group(function () {
     // 保存処理
     Route::post('/qiita/import', [QiitaController::class, 'import'])->name('qiita.import');
 
-
     // 手動投稿
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
@@ -41,8 +40,3 @@ Route::middleware('auth')->group(function () {
     // Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
     Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
-
-
-
-
-
