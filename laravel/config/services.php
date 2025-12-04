@@ -34,5 +34,9 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'discord' => [
+    'bot_token' => env('DISCORD_BOT_TOKEN'),
+],
+
 
 ];
