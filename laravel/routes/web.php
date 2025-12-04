@@ -3,6 +3,7 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\QiitaController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DiscordRegisterController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
@@ -40,3 +41,8 @@ Route::middleware('auth')->group(function () {
     // Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
     Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
 });
+
+Route::get('/discord/register', [DiscordRegisterController::class, 'showRegisterForm'])->name('discord.register.form');
+Route::post('/discord/register/send', [DiscordRegisterController::class, 'sendDiscordRegisterCode'])->name('discord.register.send');
+Route::get('/discord/register/confirm', [DiscordRegisterController::class, 'showConfirmForm'])->name('discord.register.confirm.form');
+Route::post('/discord/register/confirm', [DiscordRegisterController::class, 'confirmRegisterCode'])->name('discord.register.confirm');
