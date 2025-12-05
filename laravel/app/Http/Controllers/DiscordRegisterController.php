@@ -11,6 +11,42 @@ class DiscordRegisterController extends Controller
 {
     const CODE_LENGTH = 16;
 
+    protected function isUserInGuild(string $discordUserId): bool
+    {
+        $botToken = config('services.discord.bot_token');
+        $guildId = config('services.discord.guild_id');
+
+        $response = Http::withHeaders([
+            'Authorization' => "Bot {$botToken}",
+        ])->get("https://discord.com/api/v10/guilds/{$guildId}/members/{$discordUserId}");
+
+        // 🔍 デバッグログ
+        \Log::info('Guild membership check', [
+            'discord_id' => $discordUserId,
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ]);
+
+        if ($response->successful()) {
+            \Log::info("User IS in guild", ['discord_id' => $discordUserId]);
+            return true;
+        }
+
+        if ($response->status() === 404) {
+            \Log::warning("User NOT in guild (404)", ['discord_id' => $discordUserId]);
+            return false;
+        }
+
+        \Log::error("Guild check error", [
+            'discord_id' => $discordUserId,
+            'status' => $response->status(),
+            'body' => $response->body(),
+        ]);
+
+        return false;
+    }
+
+
     public function showRegisterForm()
     {
         return view('discord.register');
@@ -20,19 +56,29 @@ class DiscordRegisterController extends Controller
     {
         $discordId = $req->input('discord_id');
 
+        // ① ギルド所属チェック
+        if (!$this->isUserInGuild($discordId)) {
+
+            // ❗デバッグログ
+            \Log::warning("User failed guild check", ['discord_id' => $discordId]);
+
+            return back()->withErrors([
+                'discord_id' => '指定のDiscordサーバーに参加していません。',
+            ]);
+        }
+
         // 乱数コード生成
         $code = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyz'), 0, self::CODE_LENGTH);
         $hashed = Hash::make($code);
         $expires = Carbon::tomorrow();
 
-        // DB保存
         TempRegisterCode::create([
             'discord_id' => $discordId,
             'register_code' => $hashed,
             'expires_at' => $expires,
         ]);
 
-        // Discord Bot 経由で DM 送信
+        // DM送信
         $this->sendDiscordDM($discordId, "あなたの登録コードは **{$code}** です。");
 
         session(['discord_id' => $discordId]);
@@ -40,10 +86,12 @@ class DiscordRegisterController extends Controller
         return redirect()->route('discord.register.confirm.form');
     }
 
+
     public function showConfirmForm()
     {
         return view('discord.confirm');
     }
+
 
     public function confirmRegisterCode(Request $req)
     {
@@ -55,13 +103,11 @@ class DiscordRegisterController extends Controller
         $input = $req->input('code');
 
         $tmp = TempRegisterCode::where('discord_id', $discordId)
-                ->where('expires_at', '>=', Carbon::today())
-                ->get();
+            ->where('expires_at', '>=', Carbon::today())
+            ->get();
 
         foreach ($tmp as $row) {
             if (Hash::check($input, $row->register_code)) {
-                // 本登録処理
-                // 例: User::create([...discord_id など...]);
                 return redirect('/')->with('status', '登録完了');
             }
         }
@@ -69,32 +115,35 @@ class DiscordRegisterController extends Controller
         return back()->withErrors(['code' => 'コードが正しくありません']);
     }
 
-   protected function sendDiscordDM(string $discordUserId, string $message)
-{
-    $botToken = config('services.discord.bot_token');
 
-    // ① DM チャンネル作成
-    $response = Http::withHeaders([
-        'Authorization' => "Bot {$botToken}",
-        'Content-Type' => 'application/json',
-    ])->post('https://discord.com/api/v10/users/@me/channels', [
-        'recipient_id' => $discordUserId,
-    ]);
+    protected function sendDiscordDM(string $discordUserId, string $message)
+    {
+        $botToken = config('services.discord.bot_token');
 
-    $channelId = $response->json('id');
+        // DM チャンネル作成
+        $response = Http::withHeaders([
+            'Authorization' => "Bot {$botToken}",
+            'Content-Type' => 'application/json',
+        ])->post('https://discord.com/api/v10/users/@me/channels', [
+            'recipient_id' => $discordUserId,
+        ]);
 
-    if (!$channelId) {
-        \Log::error('Failed to create DM channel.', ['response' => $response->json()]);
-        return false;
+        $channelId = $response->json('id');
+
+        if (!$channelId) {
+            \Log::error('Failed to create DM channel.', [
+                'discord_id' => $discordUserId,
+                'response' => $response->body()
+            ]);
+            return false;
+        }
+
+        // DM送信
+        return Http::withHeaders([
+            'Authorization' => "Bot {$botToken}",
+            'Content-Type' => 'application/json',
+        ])->post("https://discord.com/api/v10/channels/{$channelId}/messages", [
+            'content' => $message,
+        ]);
     }
-
-    // ② DM チャンネルにメッセージ送信
-    return Http::withHeaders([
-        'Authorization' => "Bot {$botToken}",
-        'Content-Type' => 'application/json',
-    ])->post("https://discord.com/api/v10/channels/{$channelId}/messages", [
-        'content' => $message,
-    ]);
-}
-
 }
