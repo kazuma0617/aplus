@@ -15,21 +15,56 @@ class UserController extends Controller
         return view('auth.register_step1_discord');
     }
 
-    // 登録処理
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|unique:users,name|min:3|max:20',
-            'password' => 'required|string|min:6',
-        ]);
+    public function sendDiscordRegisterCode(Request $request)
+{
+    // Discord ID を取得
+    $discordId = $request->input('discord_id');
 
-        User::create([
-            'name' => $request->name,
-            'password' => Hash::make($request->password),
-        ]);
+    // セッション保存
+    session(['discord_id' => $discordId]);
 
-        return redirect()->route('login');
+    // 認証コード生成（16文字）
+    $registerCode = substr(str_shuffle('1234567890abcdefghijklmnopqrstuvwxyz'), 0, 16);
+
+    // 有効期限（明日）
+    $expiresAt = Carbon::tomorrow()->toDateString();
+
+    // DB 保存（TempRegisterCodes）
+    TempRegisterCode::create([
+        'discord_id'   => $discordId,
+        'register_code'=> bcrypt($registerCode),
+        'expires_at'   => $expiresAt,
+    ]);
+
+    // Discord DM 送信（Controller内に直接書く）
+    $botToken = env('DISCORD_BOT_TOKEN');
+
+    // ① DMチャネル作成
+    $response = Http::withHeaders([
+        'Authorization' => "Bot {$botToken}",
+        'Content-Type'  => 'application/json',
+    ])->post('https://discord.com/api/v10/users/@me/channels', [
+        'recipient_id' => $discordId,
+    ]);
+
+    $channelId = $response->json('id');
+
+    if (!$channelId) {
+        return back()->withErrors(['discord_id' => 'DMチャネルの作成に失敗しました']);
     }
+
+    // ② メッセージ送信
+    Http::withHeaders([
+        'Authorization' => "Bot {$botToken}",
+        'Content-Type'  => 'application/json',
+    ])->post("https://discord.com/api/v10/channels/{$channelId}/messages", [
+        'content' => "あなたの登録コードは **{$registerCode}** です。\n有効期限: 明日まで",
+    ]);
+
+    // 次の画面へ
+    return redirect()->route('register2');
+}
+
 
     // ログイン画面
     public function showLoginForm()
