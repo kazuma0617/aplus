@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     // 登録画面
-    public function showRegisterForm()
+    public function showRegisterForm1()
     {
-        return view('auth.register');
+        return view('auth.register_step1_discord');
     }
 
     // 登録処理
