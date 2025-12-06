@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Route;
 // 認証
 Route::get('/register', [UserController::class, 'showRegisterForm1'])->name('register1');
 Route::post('/register', [UserController::class, 'sendDiscordRegisterCode'])->name('register1');
-Route::get('/registe2', [UserController::class, 'showRegisterForm2'])->name('register2');
-Route::post('/register2', [UserController::class, 'newRegister'])->name('register2');
+Route::get('/register2', [UserController::class, 'showRegisterForm2'])->name('register2');
+Route::post('/register2', [UserController::class, 'newRegister'])->name('register.submit');
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
