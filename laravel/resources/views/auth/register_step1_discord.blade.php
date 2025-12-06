@@ -21,7 +21,7 @@
             @csrf
             <div class="input-info">
                 <fieldset class="userid">
-                     <input class="userid-input" name="discord-ID" type="text" placeholder="Discord IDを入力" required/>
+                     <input class="userid-input" name="discord_id" type="text" placeholder="Discord IDを入力" required/>
                 </fieldset>
             </div>
             <button type="submit" class="login-button">新規登録</button>

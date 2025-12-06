@@ -11,13 +11,13 @@
     <header>
         <div class="header-inner">
             <a href="#" class="logo">Aplus</a>
-            <a href="{{ route('register.show') }}" class="header-register-link">アカウント登録</a>
+            <a href="" class="header-register-link">アカウント登録</a>
         </div>     
     </header>
 
     <div class="login">
         <p class="login-title">ログイン</p>
-        <form action="{{ route('login.store') }}" method="POST">
+        <form action="" method="POST">
             @csrf
             <div class="input-info">
                 <fieldset class="userid">
