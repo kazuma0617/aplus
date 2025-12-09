@@ -83,7 +83,7 @@ class DiscordRegisterController extends Controller
 
         session(['discord_id' => $discordId]);
 
-        return redirect()->route('discord.register.confirm.form');
+        return redirect()->route('discorzd.register.confirm.form');
     }
 
 

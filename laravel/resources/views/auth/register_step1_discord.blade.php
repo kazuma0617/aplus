@@ -16,6 +16,14 @@
     </header>
 
     <div class="login">
+        @if ($errors->any())
+    <div class="error-box" style="color: red; margin-bottom: 10px;">
+        @foreach ($errors->all() as $error)
+            <p>{{ $error }}</p>
+        @endforeach
+    </div>
+@endif
+
         <p class="login-title">新規登録</p>
         <form action="{{ route('register1') }}" method="POST">
             @csrf
