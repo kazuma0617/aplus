@@ -16,60 +16,37 @@
     </header>
 
     <div class="login">
+
+        @if ($errors->any())
+        <div class="error-box" style="color: red; margin-bottom: 10px;">
+            @foreach ($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+        @endif
+
         <p class="login-title">新規登録</p>
-       <form action="{{ route('register.submit') }}" method="POST">
-    @csrf
-    @if ($errors->any())
-    <div style="color: red; margin-bottom: 10px;">
-        @foreach ($errors->all() as $error)
-            <p>{{ $error }}</p>
-        @endforeach
-    </div>
-@endif
 
+        <form action="{{ route('register.submit') }}" method="POST">
+            @csrf
 
-    <!-- Discord ID（hiddenでもOK） -->
-    <input class="password-input hidden" 
-           name="discord_id" 
-           type="text"
-           placeholder="Discord IDを入力"
-           value="{{ old('discord_id') ?? session('discord_id') }}" />
+            <!-- Discord ID（hidden） -->
+            <input type="hidden" name="discord_id" value="{{ session('discord_id') }}" />
 
-    <!-- 認証コード -->
-    <input class="password-input"
-           name="register_code"
-           type="text"
-           placeholder="確認コードを入力"
-           value="{{ old('register_code') }}" />
+            <div class="input-info">
+                <div class="userid">
+                    <input type="text" name=register_code class="userid-input" placeholder="確認コードを入力">
+                </div>
+                <div class="userid">
+                    <input type="text" name="name" class="userid-input" placeholder="name">
+                </div>
+                <div class="userid">
+                    <input type="password" name="password" class="userid-input" placeholder="password">
+                </div>
+            </div>
 
-    <!-- username -->
-    <fieldset class="userid">
-        <input type="text"
-               placeholder="username"
-               name="name"
-               class="userid-input">
-    </fieldset>
-
-    <!-- password -->
-    <fieldset class="password">
-        <input type="password"
-               placeholder="password"
-               name="password"
-               id="password"
-               class="password-input">
-    </fieldset>
-
-    <!-- password confirmation -->
-    <fieldset class="password">
-        <input type="password"
-               placeholder="確認用パスワード"
-               name="password_confirmation"
-               class="password-input">
-    </fieldset>
-
-    <button type="submit" class="login-button">新規登録</button>
-</form>
-
+            <button type="submit" class="login-button">新規登録</button>
+        </form>
     </div>
 </body>
 </html>

@@ -11,7 +11,7 @@
     <header>
         <div class="header-inner">
             <a href="#" class="logo">Aplus</a>
-            <a href="" class="header-register-link">アカウント登録</a>
+            <a href="{{ route('register1') }}" class="header-register-link">アカウント登録</a>
         </div>     
     </header>
 
@@ -20,12 +20,12 @@
         <form action="" method="POST">
             @csrf
             <div class="input-info">
-                <fieldset class="userid">
-                    <input type="text" placeholder="username" name="name" class="userid-input">
-                </fieldset>
-                <fieldset class="password">
+                <div class="userid">
+                    <input type="text" placeholder="name" name="name" class="userid-input">
+                </div>
+                <div class="userid">
                     <input type="text" placeholder="password" name="password" id="password" class="password-input">
-                </fieldset>
+                </div>
             </div>
             <button type="submit" class="login-button">ログイン</button>
         </form>

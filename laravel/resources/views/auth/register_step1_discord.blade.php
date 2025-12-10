@@ -28,9 +28,9 @@
         <form action="{{ route('register1') }}" method="POST">
             @csrf
             <div class="input-info">
-                <fieldset class="userid">
+                <div class="userid">
                      <input class="userid-input" name="discord_id" type="text" placeholder="Discord IDを入力" required/>
-                </fieldset>
+                </div>
             </div>
             <button type="submit" class="login-button">Discordに送信</button>
         </form>
