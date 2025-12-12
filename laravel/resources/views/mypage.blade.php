@@ -1,5 +1,9 @@
 @extends('layout')
 
+@push('style')
+<link rel="stylesheet" href="{{ asset('css/mypage.css') }}">
+@endpush
+
 @section('content')
 
     @if(Auth::check())

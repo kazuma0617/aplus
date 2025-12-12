@@ -1,0 +1,100 @@
+/* 投稿画面 */
+.layout-top {
+    width: 100%;
+    height: 75px;
+    background-color: #EEDEC8;
+    display: flex;
+    justify-content: center;
+    position: relative; /* ← fixedをやめてrelativeに */
+    margin-top: 0;      /* ← マージンもリセット */
+}
+
+
+.top-content{
+    width: 100%;
+    max-width: 950px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back{
+    font-size: 24px;
+    padding-top: 4px;
+    text-decoration: none;
+    color: #6d6d6d;
+}
+.submit{
+    width: 90px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #7A5542;
+    border-radius: 30px;
+    border: none;
+    padding-top: 4px;
+    cursor: pointer;
+}
+
+.layout-main {
+    width: 100%; /* ← width:100% に戻す */
+    max-width: 950px;
+    padding-top: 75px;
+}
+
+.post-title{
+    width: 100%;
+    border-bottom: 2px solid #d9d9d9;
+    padding-bottom: 4px;
+    margin-bottom: 32px;
+}
+
+.post-title input{
+    /*デフォルトの枠線などを消去*/
+    background: none;
+    border: none;
+    outline: none;
+    
+    width: 100%;
+    color: #6d6d6d;
+    font-size: 24px;
+}
+
+.post-product-url, .post-github-url {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 32px;
+    font-size: 24px;
+    color: #6d6d6d;
+    padding-bottom: 16px;
+    border: none;
+    outline: none;
+    height: 24px;
+}
+
+#image-upload-area {
+    margin: 20px 0;
+}
+
+#imageLabel {
+    cursor: pointer;
+    display: inline-block;
+}
+
+.sample-image {
+    width: 300px;
+    height: 180px;
+    object-fit: cover;
+    border: 2px #ccc;
+    border-radius: 12px;
+}
+
+.select-text {
+    font-size: 14px;
+    color: #666;
+    margin-top: 8px;
+}

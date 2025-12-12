@@ -1,5 +1,9 @@
 @extends('layout')
 
+@push('style')
+<link rel="stylesheet" href="{{ asset('css/index.css') }}">
+@endpush
+
 @section('content')
 <div class="main-contents">
     @foreach($articles as $article)
