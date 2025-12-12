@@ -1,5 +1,9 @@
 @extends('layout-no-bootstrap')
 
+@push('style')
+<link rel="stylesheet" href="{{ asset('css/create.css') }}">
+@endpush
+
 @section('content')
 <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
     @csrf

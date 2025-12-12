@@ -65,7 +65,7 @@ class QiitaController extends Controller
 
         // ★ DB保存はしない
         // ★ プレビュー画面へ渡す
-        return view('preview', ['qiitaArticles' => $articles]);
+        return view('qiita-preview', ['qiitaArticles' => $articles]);
 
     }
 
