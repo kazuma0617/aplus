@@ -98,3 +98,55 @@
     color: #666;
     margin-top: 8px;
 }
+
+/* tag */
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.tag-badge {
+    background: #DDF5DD;
+    color: #3F7D3F;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tag-remove {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tag-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.tag-suggest {
+    list-style: none;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-top: 4px;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    display: none;
+}
+
+.tag-suggest li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.tag-suggest li:hover {
+    background: #f3f3f3;
+}

@@ -4,6 +4,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\QiitaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DiscordRegisterController;
+use App\Http\Controllers\TagController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 
@@ -48,3 +49,6 @@ Route::get('/discord/register', [DiscordRegisterController::class, 'showRegister
 Route::post('/discord/register/send', [DiscordRegisterController::class, 'sendDiscordRegisterCode'])->name('discord.register.send');
 Route::get('/discord/register/confirm', [DiscordRegisterController::class, 'showConfirmForm'])->name('discord.register.confirm.form');
 Route::post('/discord/register/confirm', [DiscordRegisterController::class, 'confirmRegisterCode'])->name('discord.register.confirm');
+
+
+Route::get('/tags/suggest', [TagController::class, 'suggest'])->name('tags.suggest');
