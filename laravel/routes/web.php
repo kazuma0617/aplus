@@ -41,14 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
     Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
     Route::post('/articles/{id}', [ArticleController::class, 'update'])->name('articles.update');
-    // Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
     Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+    Route::get('/tags/suggest', [TagController::class, 'suggest'])->name('tags.suggest');
 });
-
-Route::get('/discord/register', [DiscordRegisterController::class, 'showRegisterForm'])->name('discord.register.form');
-Route::post('/discord/register/send', [DiscordRegisterController::class, 'sendDiscordRegisterCode'])->name('discord.register.send');
-Route::get('/discord/register/confirm', [DiscordRegisterController::class, 'showConfirmForm'])->name('discord.register.confirm.form');
-Route::post('/discord/register/confirm', [DiscordRegisterController::class, 'confirmRegisterCode'])->name('discord.register.confirm');
-
-
-Route::get('/tags/suggest', [TagController::class, 'suggest'])->name('tags.suggest');
