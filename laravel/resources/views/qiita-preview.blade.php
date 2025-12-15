@@ -18,6 +18,9 @@
             @csrf
             <input type="hidden" name="title" value="{{ $article['title'] }}">
             <input type="hidden" name="url" value="{{ $article['url'] }}">
+            @foreach ($article['tags'] as $tag)
+                <input type="hidden" name="tags[]" value="{{ $tag['name'] }}">
+            @endforeach
             <button type="submit">追加する</button>
         </form>
 </div>
