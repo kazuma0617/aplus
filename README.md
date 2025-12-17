@@ -9,8 +9,8 @@
 # ER図
 
 # 使用技術スタック
-- PHP
-- Laravel
+- PHP 8.4
+- Laravel 12
 - MySQL
 - AWS (EC2/ALB/Route53)
 - JavaScript
