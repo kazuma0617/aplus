@@ -180,3 +180,39 @@ input:focus {
     color: white;
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .header-inner {
+    padding: 0 16px;
+  }
+
+  header {
+    height: auto;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .login {
+    width: 100%;
+    max-width: 100%;
+    padding: 24px 16px;
+    box-sizing: border-box;
+  }
+
+  .input-info,
+  .login-button {
+    width: 100%;
+  }
+
+  .userid-input,
+  .password-input {
+    width: 100%;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+}
