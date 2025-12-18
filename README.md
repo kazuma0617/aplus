@@ -7,6 +7,7 @@
 # トップページ
 
 # ER図
+<img src="docs/images/aplus.drawio.png">
 
 # 使用技術スタック
 - PHP 8.4
