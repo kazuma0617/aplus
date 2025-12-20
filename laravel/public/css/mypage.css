@@ -182,3 +182,53 @@
 .delete-btn i {
     color: #fff;
 }
+
+@media (max-width: 768px) {
+    .btn-back {
+        background-color: #6d6d6d;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .btn-qiita {
+    display: inline-block;
+    margin: 0px;
+    background-color: #55C500;
+    color: #ffffff;             
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.6rem;
+    padding: 6px 12px;
+    border-radius: 25px;
+}
+  .main-contents {
+    grid-template-columns: 1fr;
+  }
+
+  .article-card {
+    height: auto;
+  }
+
+  .article-right {
+    justify-content: flex-start;
+    gap: 6px;
+  }
+
+  .article-left {
+    width: 40%;            /* PC */
+    height: 120px;         /* ← 画像の高さを統一 */
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+  .tag {
+    width: auto;
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+
+  .article-actions {
+    justify-content: flex-end;
+  }
+
+}
