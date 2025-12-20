@@ -15,7 +15,7 @@
             <a href="#" class="logo">Aplus</a>
             <nav>
                 <a href="{{ route('mypage') }}" class="icon-btn"><i class="bi bi-person-circle"></i></a>
-                <a href="{{ route('articles.create') }}">投稿する</a>
+                <a href="{{ route('articles.create') }}" class="create-btn">投稿する</a>
             </nav>
         </div>
         
