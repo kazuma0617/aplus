@@ -28,8 +28,10 @@
                 <a href="{{ $article->github_url }}" class="github-btn" target="_blank">
                     <i class="bi bi-github"></i>
                 </a>
+                @else
+                <i class="bi bi-person-circle"></i>
                 @endif
-                投稿者：{{ optional($article->user)->name }}
+                <span class="poster-name">{{ optional($article->user)->name }}</span>
             </p>
         </div>
     </div>
