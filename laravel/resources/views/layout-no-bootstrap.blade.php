@@ -13,10 +13,8 @@
         <div class="header-inner">
             <a href="#" class="logo">Aplus</a>
             <nav>
-                <button class="icon-btn"><i class="bi bi-search"></i></button>
-                <button class="icon-btn"><i class="bi bi-bell"></i></button>
                 <a href="{{ route('mypage') }}" class="icon-btn"><i class="bi bi-person-circle"></i></a>
-                <a href="{{ route('articles.create') }}">投稿する</a>
+                <a href="{{ route('articles.create') }}" class="create-btn">投稿する</a>
             </nav>
         </div>
         
