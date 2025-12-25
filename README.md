@@ -1,6 +1,8 @@
 # Aplus
-「Aplus」はアプレンティス生向けに作成した、チーム開発やオリジナルプロダクトの記事のURLとGitHubのURLを共有できるアプリです。
-
+「Aplus」はアプレンティス生向けに作成した、チーム開発の記事を共有できるアプリです。
+過去のアプレンティス生が作成したチーム開発の記事を集約することで、
+これからチーム開発に挑戦する人が効率よく学習できる環境を提供します。
+リンク：https://aplus-app.click/
 # インフラ構成図
 <img src="docs/images/aplus-system-architecture.drawio.png">
 
