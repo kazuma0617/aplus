@@ -15,7 +15,7 @@
 # 使用技術スタック
 - PHP 8.4
 - Laravel 12
-- MySQL
+- MySQL 9.3
 - AWS (EC2/ALB/Route53)
 - JavaScript
 - HTML/CSS
