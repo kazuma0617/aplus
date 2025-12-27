@@ -85,45 +85,44 @@ class ArticleController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'url' => 'required|url|max:255',
-        'github_url' => 'nullable|url|max:255',
-        'image_path' => 'nullable|image|max:2048',
-        'tags' => 'nullable|string',   // ← JSON 文字列
-    ]);
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'url' => 'required|url|max:255',
+            'github_url' => 'nullable|url|max:255',
+            'image_path' => 'nullable|image|max:2048',
+            'tags' => 'nullable|string',   // ← JSON 文字列
+        ]);
 
-    // 画像アップロード
-    $imagePath = null;
-    if ($request->hasFile('image_path')) {
-        $imagePath = $request->file('image_path')->store('articles', 'public');
+        // 画像アップロード
+        $imagePath = null;
+        if ($request->hasFile('image_path')) {
+            $imagePath = $request->file('image_path')->store('articles', 'public');
+        }
+
+        // ① 記事作成
+        $article = Article::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'url' => $request->url,
+            'github_url' => $request->github_url,
+            'image_path' => $imagePath,
+        ]);
+
+        // ② hidden の JSON からタグ名リスト取得
+        $tagNames = json_decode($request->tags, true) ?? [];
+
+        $tagIds = [];
+
+        foreach ($tagNames as $name) {
+            // 既存のタグを探す。なければ作成
+            $tag = Tag::firstOrCreate(['name' => $name]);
+            $tagIds[] = $tag->id;
+        }
+
+        // ③ タグを紐づけ
+        $article->tags()->sync($tagIds);
+
+        return redirect()->route('mypage');
     }
-
-    // ① 記事作成
-    $article = Article::create([
-        'user_id' => Auth::id(),
-        'title' => $request->title,
-        'url' => $request->url,
-        'github_url' => $request->github_url,
-        'image_path' => $imagePath,
-    ]);
-
-    // ② hidden の JSON からタグ名リスト取得
-    $tagNames = json_decode($request->tags, true) ?? [];
-
-    $tagIds = [];
-
-    foreach ($tagNames as $name) {
-        // 既存のタグを探す。なければ作成
-        $tag = Tag::firstOrCreate(['name' => $name]);
-        $tagIds[] = $tag->id;
-    }
-
-    // ③ タグを紐づけ
-    $article->tags()->sync($tagIds);
-
-    return redirect()->route('mypage');
-}
-
 }

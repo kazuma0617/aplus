@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\TempRegisterCode;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 
@@ -28,16 +29,18 @@ class DiscordRegisterController extends Controller
         ]);
 
         if ($response->successful()) {
-            \Log::info("User IS in guild", ['discord_id' => $discordUserId]);
+            \Log::info('User IS in guild', ['discord_id' => $discordUserId]);
+
             return true;
         }
 
         if ($response->status() === 404) {
-            \Log::warning("User NOT in guild (404)", ['discord_id' => $discordUserId]);
+            \Log::warning('User NOT in guild (404)', ['discord_id' => $discordUserId]);
+
             return false;
         }
 
-        \Log::error("Guild check error", [
+        \Log::error('Guild check error', [
             'discord_id' => $discordUserId,
             'status' => $response->status(),
             'body' => $response->body(),
@@ -45,7 +48,6 @@ class DiscordRegisterController extends Controller
 
         return false;
     }
-
 
     public function showRegisterForm()
     {
@@ -57,10 +59,10 @@ class DiscordRegisterController extends Controller
         $discordId = $req->input('discord_id');
 
         // ① ギルド所属チェック
-        if (!$this->isUserInGuild($discordId)) {
+        if (! $this->isUserInGuild($discordId)) {
 
             // ❗デバッグログ
-            \Log::warning("User failed guild check", ['discord_id' => $discordId]);
+            \Log::warning('User failed guild check', ['discord_id' => $discordId]);
 
             return back()->withErrors([
                 'discord_id' => '指定のDiscordサーバーに参加していません。',
@@ -86,17 +88,15 @@ class DiscordRegisterController extends Controller
         return redirect()->route('discorzd.register.confirm.form');
     }
 
-
     public function showConfirmForm()
     {
         return view('discord.confirm');
     }
 
-
     public function confirmRegisterCode(Request $req)
     {
         $req->validate([
-            'code' => "required|string|size:" . self::CODE_LENGTH,
+            'code' => 'required|string|size:'.self::CODE_LENGTH,
         ]);
 
         $discordId = session('discord_id');
@@ -115,7 +115,6 @@ class DiscordRegisterController extends Controller
         return back()->withErrors(['code' => 'コードが正しくありません']);
     }
 
-
     protected function sendDiscordDM(string $discordUserId, string $message)
     {
         $botToken = config('services.discord.bot_token');
@@ -130,11 +129,12 @@ class DiscordRegisterController extends Controller
 
         $channelId = $response->json('id');
 
-        if (!$channelId) {
+        if (! $channelId) {
             \Log::error('Failed to create DM channel.', [
                 'discord_id' => $discordUserId,
-                'response' => $response->body()
+                'response' => $response->body(),
             ]);
+
             return false;
         }
 

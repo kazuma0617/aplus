@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-    $table->string('discord_id')->unique()->nullable();
-});
+            $table->string('discord_id')->unique()->nullable();
+        });
 
     }
 

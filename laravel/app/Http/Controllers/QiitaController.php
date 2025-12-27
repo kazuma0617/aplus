@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Qiita;
 use App\Models\Article;
+use App\Models\Qiita;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,37 +72,37 @@ class QiitaController extends Controller
     }
 
     public function import(Request $request)
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    // 記事を保存（既存なら更新）
-    $article = Article::updateOrCreate(
-        [
-            'url' => $request->url,
-            'user_id' => $user->id,
-        ],
-        [
-            'title' => $request->title,
-        ]
-    );
+        // 記事を保存（既存なら更新）
+        $article = Article::updateOrCreate(
+            [
+                'url' => $request->url,
+                'user_id' => $user->id,
+            ],
+            [
+                'title' => $request->title,
+            ]
+        );
 
-    // タグが送られてきている場合のみ処理
-    if ($request->filled('tags')) {
-        $tagIds = [];
+        // タグが送られてきている場合のみ処理
+        if ($request->filled('tags')) {
+            $tagIds = [];
 
-        foreach ($request->tags as $tagName) {
-            // タグを作成 or 取得
-            $tag = Tag::firstOrCreate([
-                'name' => $tagName,
-            ]);
+            foreach ($request->tags as $tagName) {
+                // タグを作成 or 取得
+                $tag = Tag::firstOrCreate([
+                    'name' => $tagName,
+                ]);
 
-            $tagIds[] = $tag->id;
+                $tagIds[] = $tag->id;
+            }
+
+            // 記事にタグを紐づけ（重複しない）
+            $article->tags()->sync($tagIds);
         }
 
-        // 記事にタグを紐づけ（重複しない）
-        $article->tags()->sync($tagIds);
+        return redirect()->route('mypage');
     }
-
-    return redirect()->route('mypage');
-}
 }

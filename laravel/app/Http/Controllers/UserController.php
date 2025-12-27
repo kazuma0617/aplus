@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\TempRegisterCode;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -27,7 +27,7 @@ class UserController extends Controller
         $response = Http::withHeaders([
             'Authorization' => "Bot {$botToken}",
         ])->get("https://discord.com/api/v10/guilds/{$guildId}/members/{$discordUserId}");
-        
+
         return $response->successful();
     }
 
@@ -35,7 +35,7 @@ class UserController extends Controller
     {
         $discordId = $request->input('discord_id');
 
-        if (!$this->isUserInGuild($discordId)) {
+        if (! $this->isUserInGuild($discordId)) {
             return back()->withErrors([
                 'discord_id' => '指定のDiscordサーバーに参加していません。',
             ]);
@@ -64,49 +64,49 @@ class UserController extends Controller
         return view('auth.register_step2_info');
     }
 
-public function newRegister(Request $request)
-{
-    $request->validate([
-        'discord_id' => 'required|string',
-        'register_code' => 'required|string',
-        'name' => 'required|string',
-        'password' => 'required|string|min:6',
-    ]);
+    public function newRegister(Request $request)
+    {
+        $request->validate([
+            'discord_id' => 'required|string',
+            'register_code' => 'required|string',
+            'name' => 'required|string',
+            'password' => 'required|string|min:6',
+        ]);
 
-    $discordId = $request->input('discord_id');
-    $inputCode = $request->input('register_code');
+        $discordId = $request->input('discord_id');
+        $inputCode = $request->input('register_code');
 
-    $record = TempRegisterCode::where('discord_id', $discordId)
-                ->where('expires_at', '>', now())
-                ->latest()
-                ->first();
+        $record = TempRegisterCode::where('discord_id', $discordId)
+            ->where('expires_at', '>', now())
+            ->latest()
+            ->first();
 
-    if (!$record) {
-        return back()->withErrors([
-            'register_code' => '認証コードが存在しないか、有効期限が切れています。',
-        ])->withInput();
+        if (! $record) {
+            return back()->withErrors([
+                'register_code' => '認証コードが存在しないか、有効期限が切れています。',
+            ])->withInput();
+        }
+
+        if (! Hash::check($inputCode, $record->register_code)) {
+            return back()->withErrors([
+                'register_code' => '認証コードが間違っています。',
+            ])->withInput();
+        }
+
+        $user = User::create([
+            'name' => $request->name,
+            'password' => Hash::make($request->password),
+            'discord_id' => $discordId,
+        ]);
+
+        $record->delete();
+
+        Auth::login($user);
+
+        return redirect()->route('mypage');
     }
 
-    if (!Hash::check($inputCode, $record->register_code)) {
-        return back()->withErrors([
-            'register_code' => '認証コードが間違っています。',
-        ])->withInput();
-    }
-
-    $user = User::create([
-        'name' => $request->name,
-        'password' => Hash::make($request->password),
-        'discord_id' => $discordId,
-    ]);
-
-    $record->delete();
-
-    Auth::login($user);
-
-    return redirect()->route('mypage');
-}
-
-protected function sendDiscordDM(string $discordUserId, string $message)
+    protected function sendDiscordDM(string $discordUserId, string $message)
     {
         $botToken = config('services.discord.bot_token');
 
@@ -119,7 +119,7 @@ protected function sendDiscordDM(string $discordUserId, string $message)
 
         $channelId = $response->json('id');
 
-        if (!$channelId) {
+        if (! $channelId) {
             return false;
         }
 
@@ -130,7 +130,6 @@ protected function sendDiscordDM(string $discordUserId, string $message)
             'content' => $message,
         ]);
     }
-
 
     public function showLoginForm()
     {

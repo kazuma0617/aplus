@@ -2,9 +2,8 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\QiitaController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\DiscordRegisterController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use App\Models\Article;
 use Illuminate\Support\Facades\Route;
 

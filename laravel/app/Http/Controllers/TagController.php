@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
@@ -11,13 +11,13 @@ class TagController extends Controller
     {
         $keyword = $request->input('keyword');
 
-        if (!$keyword) {
+        if (! $keyword) {
             return response()->json([]);
         }
 
-        $tags = Tag::where('name', 'LIKE', $keyword . '%')
-                    ->limit(10)
-                    ->get(['id', 'name']);
+        $tags = Tag::where('name', 'LIKE', $keyword.'%')
+            ->limit(10)
+            ->get(['id', 'name']);
 
         return response()->json($tags);
     }
