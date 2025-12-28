@@ -8,6 +8,7 @@
 <img src="docs/images/aplus-system-architecture.drawio.png">
 
 ## トップページ
+<img src="docs/images/aplus-mypage.png">
 
 ## ER図
 <img src="docs/images/aplus.drawio.png">
